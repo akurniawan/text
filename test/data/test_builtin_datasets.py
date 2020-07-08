@@ -137,14 +137,13 @@ class TestDataset(TorchtextTestCase):
             de_vocab[token] for token in
             'Zwei Männer verpacken Donuts in Kunststofffolie'.split()
         ]
-        self.assertEqual(de_tokens_ids, [19, 29, 18703, 4448, 5, 6240])
+        self.assertEqual(de_tokens_ids, [18, 28, 18711, 4445, 5, 6237])
 
         en_tokens_ids = [
             en_vocab[token] for token in
             'Two young White males are outside near many bushes'.split()
         ]
-        self.assertEqual(en_tokens_ids,
-                         [17, 23, 1167, 806, 15, 55, 82, 334, 1337])
+        self.assertEqual(en_tokens_ids, [16, 22, 1166, 805, 14, 54, 81, 333, 1336])
 
         datafile = os.path.join(self.project_root, ".data", "train*")
         conditional_remove(datafile)
@@ -152,8 +151,7 @@ class TestDataset(TorchtextTestCase):
         conditional_remove(datafile)
         datafile = os.path.join(self.project_root, ".data", "test*")
         conditional_remove(datafile)
-        datafile = os.path.join(self.project_root, ".data",
-                                "multi30k_task*.tar.gz")
+        datafile = os.path.join(self.project_root, ".data", "multi30k_task*.tar.gz")
         conditional_remove(datafile)
 
     def test_udpos_sequence_tagging(self):

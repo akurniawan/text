@@ -1,10 +1,13 @@
-import torch
 import logging
+import re
 
+import torch
+
+from torchtext.data.utils import get_tokenizer
 from torchtext.experimental.datasets import raw
 from torchtext.vocab import Vocab, build_vocab_from_iterator
-from torchtext.data.utils import get_tokenizer
-from ..functional import vocab_func, totensor, sequential_transforms
+
+from ..functional import sequential_transforms, totensor, vocab_func
 
 
 def build_vocab(data, transforms, index):
@@ -12,6 +15,10 @@ def build_vocab(data, transforms, index):
     for line in data:
         tok_list.append(transforms(line[index]))
     return build_vocab_from_iterator(tok_list)
+
+
+def remove_extra_whitespace(line):
+    return re.sub(" {2,}", " ", line)
 
 
 def _setup_datasets(dataset_name,
@@ -46,8 +53,8 @@ def _setup_datasets(dataset_name,
         "valid": [line for line in val],
         "test": [line for line in test]
     }
-    src_text_vocab_transform = sequential_transforms(src_tokenizer)
-    tgt_text_vocab_transform = sequential_transforms(tgt_tokenizer)
+    src_text_vocab_transform = sequential_transforms(remove_extra_whitespace, src_tokenizer)
+    tgt_text_vocab_transform = sequential_transforms(remove_extra_whitespace, tgt_tokenizer)
 
     if src_vocab is None:
         if 'train' not in data_select:
