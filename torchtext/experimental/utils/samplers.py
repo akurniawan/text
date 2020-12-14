@@ -18,9 +18,7 @@ class BucketBatchSampler(Sampler):
         shuffle: data_source will be wrapped with RandomSampler if set to ``True``,
             otherwise, SequentialSampler. Default: True
     Example:
-        >>> dummy = [
-        ...     torch.tensor(range(1, torch.randint(2, 11, (1,))[0])) for num in range(10)
-        ... ]
+        >>> dummy = [torch.tensor(range(1, torch.randint(2, 11, ()).item())) for _ in range(10)]
         >>> def tensor_seq_len_fn(row):
         ...     return row.size(0)
         >>> list(BucketBatchSampler(dummy, tensor_seq_len_fn, batch_size=5, shuffle=False))
